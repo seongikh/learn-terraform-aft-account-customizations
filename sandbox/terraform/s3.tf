@@ -1,6 +1,7 @@
 data "aws_caller_identity" "current" {}
 
-resource "aws_s3_bucket" "sandbox_bucket" {
-  bucket = "aft-sandbox-${data.aws_caller_identity.current.account_id}"
-  acl    = "private"
+resource "time_static" "current" {}
+
+resource "aws_s3_bucket" "bucket" {
+  bucket = "aft-sandbox-${data.aws_caller_identity.current.account_id}-${replace(lower("${time_static.current.rfc3339}"),":","-")}"
 }
